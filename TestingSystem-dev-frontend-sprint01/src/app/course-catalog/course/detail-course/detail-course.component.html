@@ -1,0 +1,94 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Course Detail
+    <small>show detail infomation of Course</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a [routerLink]="['/cms']"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a [routerLink]="['/cms','course']"> Course</a></li>
+    <li class="active"> Course Detail</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="box">
+    <div class="box-header with-border">
+      <h3 class="box-title">View Course Detail</h3>
+
+    </div>
+    <div class="box-body row">
+      <div class="col-md-offset-2 col-md-8 col-xs-12">
+
+        <table class="table table-bordered table-hover" style="width: 80%;
+         text-align: center;" *ngIf="course != undefined">
+          <tr>
+            <th scope="row" style="width: 20%">Name Course</th>
+            <td>{{course.courseName}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Title</th>
+            <td>{{course.title}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Category</th>
+            <td>{{course.courseCatalog.categoryCourseName}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Tuition</th>
+            <td>
+              <div *ngIf="course.price == 0 ;else tmp">
+                <p>Membership</p>
+              </div>
+              <ng-template #tmp>
+                {{course.price }}
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Tag</th>
+            <td>{{course.tags}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Description</th>
+            <td>{{course.description}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Video</th>
+            <td>
+              <video controls src="http://localhost:8080/files/{{course.video}}" width="400px"></video>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Avatar</th>
+            <td>
+              <img src="http://localhost:8080/files/{{course.image}}" height="200px">
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Vote</th>
+            <td>{{course.vote}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>
+              <div [ngSwitch]="course.status">
+                <div *ngSwitchCase="'1'">
+                  <span class="badge bg-aqua">Public</span>
+                </div>
+                <div *ngSwitchCase="'0'">
+                  <span class="badge bg-red">Private</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <a class="btn btn-default" style="margin: 5px;" [routerLink]="['/cms','course']">
+          <i class="fa fa-arrow-circle-left" title="View Detail" style="margin-right: 5px;"></i>Go back</a>
+
+        <a [routerLink]="['update']" class="btn btn-primary">Edit Course</a>
+      </div>
+    </div>
+
+  </div>
+</section>

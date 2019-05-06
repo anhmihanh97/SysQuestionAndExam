@@ -1,0 +1,16 @@
+.modal-header{
+   padding: 10px;
+   text-transform: uppercase;
+   background-color: #00a65a;
+   color: white;
+   text-align: center;
+   font-size: 15px;
+}
+.modal-footer {
+   padding: 10px;
+}
+
+label{
+   font-weight: 550;
+   font-size: 14px;
+}

@@ -1,0 +1,50 @@
+<section class="content-header">
+   <h1>
+      Dashboard
+      <small>Control panel</small>
+   </h1>
+   <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Dashboard</li>
+   </ol>
+</section>
+<section class="content">
+   <div class="box">
+      <!-- <div class="box-header with-border">
+       <h3 class="box-title">Manage <b>Employees</b>
+       </h3>
+     </div> -->
+      <div class="box-body">
+
+         <div class="table-wrapper">
+            <div class="table-title">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <h2>Manage <b>Semester detail</b></h2>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <tabset>
+                  <tab heading="Info" id="tab1">
+                     <app-info [semester_id]="semesterID"></app-info>
+                  </tab>
+                  <tab heading="Candidate">
+                     <app-candidate [semester_id]="semesterID"></app-candidate>
+                  </tab>
+                  <!-- <tab heading="Exam" [active]="actived">
+                     <app-exam></app-exam>
+                  </tab> -->
+                  <tab heading="Report">
+                     <app-report [semesterExamCode]="semesterID"></app-report>
+                  </tab>
+                  <tab heading="Tests">
+                     <app-test-result [semester_id]="semesterID" (eventName)="receiveData($event)" [actived]="false">
+                     </app-test-result>
+                  </tab>
+               </tabset>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

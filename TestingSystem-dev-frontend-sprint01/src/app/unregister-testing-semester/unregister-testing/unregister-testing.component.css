@@ -1,0 +1,66 @@
+/* --------------------------------sidebar */
+.main-sidebar {
+   position: fixed;
+   width: 16%;
+}
+.duration-wrapper {
+   height: 100px;
+   text-align: center;
+}
+
+.duration {
+   margin: 0 10px !important;
+  padding: 10px;
+   font-weight: bold;
+   font-size: calc(12px + 1vw);
+   background-color: #fff;
+   margin: 0 auto;
+   border-radius: 3px;
+   user-select: none;
+}
+
+.index-question {
+   max-height: 400px;
+   padding: 0 5%;
+   overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+   width: 0px;
+}
+
+.index-question-item {
+   padding: 5px 10px;
+   margin: 3px;
+   text-align: center;
+   background: #fff;
+   color: #000;
+   display: inline-block;
+   cursor: pointer;
+   user-select: none;
+}
+
+.btn-exam-submit-group {
+   text-align: center;
+}
+
+/* -------------------------------- content */
+.exam-content {
+   padding: 20px 20px 20px 18%;
+}
+
+.panel-heading {
+   background-color: #435d7d;
+}
+
+.panel-title{
+   font-size: 35px;
+}
+
+.question-wrapper {
+   padding: 10px 5%;
+}
+
+.question-wrapper .form-check label {
+   font-weight: normal;
+}

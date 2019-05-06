@@ -1,0 +1,13 @@
+<!-- <router-outlet *ngIf="!isAuthentication"></router-outlet> -->
+
+<div class="wrapper" style="width: 100%  !important; " *ngIf="authority === 'user' || authority === 'admin' || authority === 'pm'">
+
+  <app-header></app-header>
+
+  <app-nav></app-nav>
+
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>

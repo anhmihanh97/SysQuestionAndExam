@@ -1,0 +1,267 @@
+<section class="content-header">
+  <h1>
+    Dashboard
+    <small>Control panel</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="box">
+    <div class="box-body">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-12">
+              <h2>Semester Exam</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid" style="padding-top: 20px;">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form [formGroup]="semesterExamFrm">
+              <div class="row">
+                <div class="col-md-4 col-xs-12">
+                  <div class="form-group">
+                    <select class="form-control" formControlName="status" >
+                      <option value="">--Status--</option>
+                      <option value="1">Public</option>
+                      <option value="0">Draf</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" formControlName="name" >
+                      <option value="">--Name--</option>
+                      <option value="Java">Java</option>
+                      <option value="Angular">Angular</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" formControlName="name">
+                      <option value="">Create_By</option>
+                      <option *ngFor="let role of roless" [value]="role.roleName">{{role.roleName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-9 col-xs-12">
+                         <input class="form-control" type="date"  value="createAt" formControlName="createdDate">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-9 col-xs-12">
+                        <input class="form-control" type="date"  value="createAt" formControlName="startTime">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-9 col-xs-12">
+                        <input class="form-control" type="date"  value="createAt" formControlName="endTime">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                  <input style="width:100px" type="submit" value="Submit" class="btn btn-primary "
+                    (click)="onSubmit()">
+              </div>
+
+              <!-- /.box-body -->
+              <div class="row">
+                <div class="box-footer col-md-12">
+
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <a routerLink="create" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add
+                new</a>
+
+              <span *ngIf="authority === 'admin'" style="margin-left: 30px"><button class="btn btn-danger"
+                  style="margin-left: 5px;" (click)="deleteItem()" [disabled]="arrDelete.length==0">
+
+                  <span class="glyphicon glyphicon-trash"></span> Delete
+                </button></span>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="search by name" [(ngModel)]="keyword"
+                  (keypress)="enterSearch($event)">
+                <span class="input-group-btn">
+                  <button class="btn btn-default btn-flat" type="submit" (click)="searchByKeyword()"
+                    matTooltip="Info about the action">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 10px;">
+            <div class="col-md-12">
+              <table class="table table-bordered table-hover table-sm">
+                <thead>
+                  <tr class="info">
+                    <th>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkboxAll" (change)="isCheckAll($event)" [checked]="check">
+                        <label for="checkboxAll"></label>
+                      </span>
+                    </th>
+                    <th>Tên kỳ thi</th>
+                    <th>Người tạo</th>
+                    <th>Status</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Mã code</th>
+                    <th class="text-center" style="width: 10% !important">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of semesterExamList | paginate: configPagination;">
+                    <td scope="row">
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="{{item.id}}" [value]="item.id" (change)="getIdOfItem($event)"
+                          [checked]="isCheck">
+                        <label for="{{item.id}}"></label>
+                      </span>
+                    </td>
+                    <td><a routerLink="{{item.id}}">{{item.name}}</a></td>
+                    <td>{{item.user.fullName}}</td>
+
+                    <td>
+                      <ng-container *ngIf="item.status==0">
+                        <span class="label label-default text-status">draft</span>
+                      </ng-container>
+                      <ng-container *ngIf="item.status==1">
+                        <span class="label label-info text-status">public</span>
+                      </ng-container>
+                      <ng-container *ngIf="item.status==2">
+                        <span class="label label-success text-status">done</span>
+                      </ng-container>
+                    </td>
+
+                    <td>{{item.startTime | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.endTime | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.code}}</td>
+                    <td style="width: 10% !important" class="text-center">
+                      <button class="btn btn-primary btn-sm" style="margin-right: 5px;"
+                        (click)="openModal(item.id,template)">
+                        <span class="glyphicon glyphicon-copy"></span>
+                        Clone
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="">
+            <div class="hint-text">Showing&nbsp;</div>
+            <div class="hint-text">
+              <select name="" id="" (change)="changeItemsPerPage($event.target.value)"
+                [(ngModel)]="configPagination.itemsPerPage">
+                <option [value]="item" *ngFor="let item of itempages">{{item}}</option>
+              </select>
+            </div>
+            <div class="hint-text">&nbsp;out of <b>{{totalRecord}}</b> entries</div>
+            <div class="pagination">
+              <pagination-controls (pageChange)="configPagination.currentPage = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<ng-template #template>
+  <div class="modal-lg">
+    <div class="modal-header">
+      <h4 class="modal-title">Clone kỳ thi</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal" style="padding-top: 10px;">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Tên kỳ thi</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" id="example-text-input" placeholder="Tên kỳ thi" autocomplete="off"
+              [value]="obj.name" [(ngModel)]="obj.name" name="name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Người tạo</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" id="example-text-input" placeholder="Tên kỳ thi" autocomplete="off"
+              value="Dinh Van Thuan" [value]="obj.user.fullName">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Ngày bắt đầu</label>
+          <div class="col-sm-4">
+
+            <div class="input-group">
+              <input type="text" placeholder="Chọn ngày bắt đầu" class="form-control" bsDatepicker #start="bsDatepicker"
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [(ngModel)]="obj.startTime" name="startTime"
+                autocomplete="off">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" (click)="start.show()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <label class="col-sm-2 control-label">Ngày kết thúc</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" placeholder="Chọn ngày kết thúc" class="form-control" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" #end="bsDatepicker" [(ngModel)]="obj.endTime"
+                name="endTime" autocomplete="off">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" (click)="end.show()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="describe" class="col-sm-2 control-label">Mô tả kỳ thi</label>
+          <div class="col-sm-10">
+            <!-- <ckeditor name="myckeditor" required></ckeditor> -->
+            <ckeditor [config]="ckeConfig" [readonly]="false" [(ngModel)]="obj.description" name="description">
+            </ckeditor>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" (click)="cloneSemesterExam()"
+        [disabled]="obj.startTime == '' || obj.endTime=='' || obj.name==''"><span
+          class="glyphicon glyphicon-saved"></span> Save</button>
+      <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true"><i class="glyphicon glyphicon-remove"></i> close</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,42 @@
+/* -------------------------------- content */
+.exam-content {
+   padding: 30px 50px;
+}
+
+.panel-heading {
+   background-color: #435d7d;
+}
+
+.panel-title{
+   font-size: 40px;
+}
+
+.question-wrapper {
+   padding: 10px 5%;
+}
+
+.question-wrapper .form-check label {
+   font-weight: normal;
+}
+
+.label {
+   padding: 5px;
+   font-size: 12px;
+}
+
+.joining-testing-btn {
+   cursor: pointer;
+}
+
+
+.modal .modal-dialog {
+   max-width: 100%;
+}
+
+.modal-content {
+   padding: 20px;
+}
+
+.label-primary {
+   cursor: pointer;
+}

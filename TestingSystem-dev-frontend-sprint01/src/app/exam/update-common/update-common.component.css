@@ -1,0 +1,11 @@
+.exam-title{
+  margin-top: 0px !important;
+  margin-bottom: 30px !important;
+}
+.mr-3 {
+  margin-right: 15px !important;
+}
+
+:host ::ng-deep .ck-editor__editable {
+  min-height: 150px;
+}

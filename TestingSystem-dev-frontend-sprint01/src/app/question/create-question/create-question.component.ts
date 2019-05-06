@@ -1,0 +1,146 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Question } from 'src/entity/Question';
+import { v4 as uuid } from 'uuid';
+import { ServiceService } from 'src/app/service.service';
+import { Category } from 'src/entity/Category';
+import { Level } from 'src/entity/Level';
+import { Tag } from 'src/entity/Tag';
+import { TypeQuestion } from 'src/entity/TypeQuestion';
+import { User } from 'src/entity/User';
+import { NotifierService } from 'angular-notifier';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+
+@Component({
+  selector: 'app-create-question',
+  templateUrl: './create-question.component.html',
+  styleUrls: ['./create-question.component.css']
+})
+export class CreateQuestionComponent implements OnInit {
+  questionFrm: FormGroup;
+  listAnswerFrm: FormArray;
+  listCategory: Category[];
+  listLvl: Level[];
+  listTag: Tag[];
+  listType: TypeQuestion[];
+  user: User;
+  date: Date;
+
+  public editor = ClassicEditor;
+
+  get answerFormGroup() {
+    return this.questionFrm.get('questionAnswer') as FormArray;
+  }
+
+  constructor(
+    private notifierService: NotifierService,
+    private service: ServiceService,
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private token: TokenStorageService
+  ) { }
+
+  ngOnInit() {
+
+    this.user = {
+      userId: this.token.getUserId(),
+      fullName: ',',
+      email: '',
+      mobile: '',
+      password: '',
+      status: 0,
+      roles: null
+
+    };
+
+    this.date = new Date();
+
+    this.questionFrm = this.fb.group({
+      category: [61],
+      questionLevel: [''],
+      questionType: [''],
+      questionTag: [''],
+      content: ['', [Validators.required, Validators.minLength(2)]],
+      sugguestion: [''],
+      userQuestion: this.user,
+      dateCreated : this.date,
+      questionAnswer: this.fb.array([this.createAnswer()])
+    });
+    this.listAnswerFrm = this.questionFrm.get('questionAnswer') as FormArray;
+
+    this.service.getAllCategory().subscribe(
+      lCategory => {
+        this.listCategory = lCategory;
+      }
+    );
+
+    this.service.getAllLvl().subscribe(
+      lLvl => {
+        this.listLvl = lLvl;
+      }
+    );
+
+    this.service.getAllTag().subscribe(
+      lTag => {
+        this.listTag = lTag;
+      }
+    );
+
+    this.service.getAllType().subscribe(
+      lType => {
+        this.listType = lType;
+      }
+    );
+  }
+
+  createAnswer(): FormGroup {
+    return this.fb.group({
+      answerId: uuid(),
+      content: ['', Validators.compose([Validators.required])],
+      isTrue: [0]
+    });
+  }
+
+  addAnswer() {
+    this.listAnswerFrm.push(this.createAnswer());
+  }
+
+
+  removeAnswer(index) {
+    this.listAnswerFrm.removeAt(index);
+  }
+
+  getAnswerFormGroup(index): FormGroup {
+    const formGroup = this.listAnswerFrm.controls[index] as FormGroup;
+    return formGroup;
+  }
+
+  onSubmit() {
+
+    if (this.listAnswerFrm.length) {
+      for (var i = 0; i < this.listAnswerFrm.length; i++) {
+        if (this.getAnswerFormGroup(i).value.isTrue === true) {
+          this.getAnswerFormGroup(i).value.isTrue = 1;
+        }
+      }
+    }
+
+    if (this.questionFrm.value) {
+      const value = this.questionFrm.value;
+      const question: Question = {
+        questionId: uuid(),
+        ...value
+      };
+      this.service.createQuestion(question).subscribe(() => {
+        this.notifierService.notify( 'success', 'Create question successfully' );
+        console.log(JSON.stringify(question));
+      });
+    }
+    setTimeout(() => this.router.navigateByUrl('cms/question'), 1000);
+  }
+
+}

@@ -1,0 +1,10 @@
+.form-test{
+   margin-top: 100px;
+
+}
+.form-test .title {
+text-align: center;
+}
+.form-test .content-list{
+   padding: 20px;
+}

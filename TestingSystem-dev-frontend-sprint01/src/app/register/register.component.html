@@ -1,0 +1,56 @@
+<div class="container container_position_relative">
+  <div *ngIf="isSignedUp; else signupForm">
+    Your registration is successful. Please login!
+  </div>
+
+  <ng-template #signupForm>
+    <div class="row col-sm-12 row_position_absolute" style="max-width:350px;">
+      <h1 class="text-center text-white">Register</h1>
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+        <div class="form-group">
+          <label for="username" class="text-white">Full Name</label>
+          <input type="text" placeholder="Vui lòng nhập Họ và Tên" class="form-control" name="username" [(ngModel)]="form.fullName" #username="ngModel"
+            required minlength="6"/>
+          <div *ngIf="f.submitted && username.invalid">
+            <div *ngIf="username.errors.required" class="text-red">Username is required</div>
+            <div *ngIf="username.errors.minlength" class="text-red">Full Name must be at least 6 characters</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="text-white">Email</label>
+          <input type="text" placeholder="Vui lòng nhập Email của bạn" class="form-control" name="email" [(ngModel)]="form.email" #email="ngModel" required email />
+          <div *ngIf="f.submitted && email.invalid">
+            <div *ngIf="email.errors.required" class="text-red">Email is required</div>
+            <div *ngIf="email.errors.email" class="text-red">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="text-white">Mobile </label>
+            <input type="text" placeholder="Vui lòng nhập số điện thoại của bạn" class="form-control" name="name" [(ngModel)]="form.mobile" #name="ngModel" required minlength="07" required maxlength="10"/>
+            <div *ngIf="f.submitted && name.invalid">
+              <div *ngIf="name.errors.required" class="text-red">Module is required</div>
+              <div *ngIf="name.errors.minlength" class="text-red">Mobile must be at least 07 characters and at most 10</div>
+              <div *ngIf="name.errors.maxlength" class="text-red">Mobile phones must have at most 10 characters</div>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="password" class="text-white">Password</label>
+          <input type="password" placeholder="Vui lòng nhập mật khẩu bạn chọn" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
+            required minlength="6" />
+          <div *ngIf="f.submitted && password.invalid">
+            <div *ngIf="password.errors.required" class="text-red">Password is required</div>
+            <div *ngIf="password.errors.minlength" class="text-red">Password must be at least 6 characters</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary button" [routerLink]="['/home']">back</button>
+          <button class="btn btn-primary button">Register</button>
+          <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
+            Signup failed!<br/>{{errorMessage}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
