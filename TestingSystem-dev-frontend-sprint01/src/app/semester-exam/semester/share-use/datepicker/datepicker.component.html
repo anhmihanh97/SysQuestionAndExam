@@ -1,0 +1,9 @@
+<div class="input-group">
+   <input type="text" placeholder="Chọn ngày bắt đầu" class="form-control" bsDatepicker #start="bsDatepicker"
+      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+   <div class="input-group-btn">
+      <button type="button" class="btn btn-default" (click)="start.show()">
+         <i class="glyphicon glyphicon-calendar"></i>
+      </button>
+   </div>
+</div>

@@ -1,0 +1,103 @@
+<div id="menu2" style="padding-top: 15px;">
+   <div class="panel panel-primary">
+      <div class="panel-heading text-center">
+         <h3 class="panel-title">DETAIL SEMESTER</h3>
+      </div>
+      <div class="panel-body">
+         <div class="row">
+            <div class="col-md-12">
+               <form class="form-horizontal" [formGroup]="data" novalidate (ngSubmit)="save()">
+                  <div class="form-group">
+                     <label class="col-md-2 control-label">Tên kỳ thi </label>
+                     <div class="col-md-10">
+                        <input type="text" class="form-control" formControlName="name">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-md-2">Người tạo kỳ thi</label>
+                     <div class="col-md-4" formGroupName="user">
+                        <input class="form-control" type="text" id="example-text-input" placeholder=""
+                           autocomplete="off" formControlName="fullName" disabled>
+                     </div>
+                     <label class="col-md-2 control-label">Trạng thái </label>
+                     <div class="col-md-4">
+                        <select name="" id="" class="form-control" formControlName="status">
+                           <option [ngValue]="0">Draf</option>
+                           <option [ngValue]="1">public</option>
+                           <option [ngValue]="2">Done</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label class="col-md-2 control-label">Thời gian bắt đầu</label>
+                     <div class="col-md-4">
+                        <div class="input-group">
+                           <input type="text" placeholder="" class="form-control" bsDatepicker #start="bsDatepicker"
+                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="startTime"
+                              value="{{startTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="startTime">
+                           <div class="input-group-btn">
+                              <button type="button" class="btn btn-default" (click)="start.toggle()">
+                                 <i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                     <label class="col-md-2 control-label">Thời gian kết thúc</label>
+
+                     <div class="col-md-4">
+                        <div class="input-group">
+                           <input type="text" placeholder="" class="form-control" bsDatepicker #time_end="bsDatepicker"
+                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="endTime"
+                              value="{{endTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="endTime">
+                           <div class="input-group-btn">
+                              <button type="button" class="btn btn-default" (click)="time_end.toggle()">
+                                 <i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="describe" class="col-sm-2 control-label">Tạo mã code kỳ thi</label>
+                     <div class="col-sm-4">
+                        <div class="input-group" formGroupName="semesterExamCode">
+                           <input type="text" class="form-control" disabled formControlName="code">
+                           <div class="input-group-btn">
+                              <button class="btn btn-primary" type="button" (click)="autoCodeSemesterExam()">
+                                 <i class="glyphicon glyphicon-plus"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="describe" class="col-sm-2 control-label">Mô tả kỳ thi</label>
+                     <div class="col-sm-10">
+                        <ckeditor name="myckeditor" required [config]="ckeConfig" debounce="500"
+                           formControlName="description">
+                        </ckeditor>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" type="submit">
+                           <span class="glyphicon glyphicon-saved"></span> Save
+                        </button>
+                        <button class="btn btn-default" (click)="comeBack()" style="margin-left: 5px;">
+                           <span class="glyphicon glyphicon-triangle-left"></span> Back
+                        </button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <pre>{{data.value|json}}</pre>
+         </div>
+      </div>
+   </div>
+
+
+</div>

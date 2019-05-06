@@ -1,0 +1,35 @@
+.exam-tit {
+  margin-top: 0px !important;
+  margin-bottom: 30px !important;
+}
+.mr-3 {
+  margin-right: 15px !important;
+}
+
+.btn-random {
+  margin-bottom: 5px;
+}
+
+.pd-3 {
+  padding-left: 4% !important;
+}
+
+.pd-5 {
+  padding-left: 15% !important;
+}
+
+.scale {
+  transform: scale(1.5);
+}
+
+.br-5 {
+  border-radius: 5% !important;
+}
+
+.random-question {
+  width: 100% !important;
+}
+
+.mt-3 {
+  margin-top: 1%;
+}

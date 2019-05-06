@@ -1,0 +1,158 @@
+
+<!-- <section class="content">
+<div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Add User</h3>
+    </div> -->
+    <!-- /.box-header -->
+    <!-- form start -->
+    <!-- <div class="form-horizontal" >
+      <div class="box-body">
+        <div class="form-group">
+          <label for="inputFullName3" class="col-sm-2 control-label">Fullname :</label>
+
+          <div class="col-sm-10">
+            <input type="email" class="form-control"  id="fullname" name="fullname" placeholder="Fullname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Email :</label>
+
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="inputMobile3" class="col-sm-2 control-label">Mobile :</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputMobile3" class="col-sm-2 control-label">Password :</label>
+
+            <div class="col-sm-10">
+              <input type="password" class="form-control"  id="password" name="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus3" class="col-sm-2 control-label" >Status :</label>
+            <div class="col-sm-10">
+              <input type="checkbox" id="status" name="status" >
+            </div>
+        </div>
+      </div> -->
+      <!-- /.box-body -->
+      <!-- <div class="box-footer">
+        <button type="submit" class="btn btn-info pull-right">Save</button>
+      </div> -->
+      <!-- /.box-footer -->
+    <!-- </div>
+  </div>
+  </section> -->
+ <section class="content">
+    <div class="panel panel-primary">
+       <div class="panel-heading">
+          <h3 class="panel-title">Add User</h3>
+       </div>
+       <div class="panel-body">
+          <form class="form-horizontal" (ngSubmit)="onSubmit()" [formGroup]="userForm">
+             <div class="form-group">
+                <label for="FullName" class="col-sm-2 control-label">Fullname </label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" required formControlName="fullName"  id="fullName" name="fullName" placeholder="Fullname">
+                  <div *ngIf="userForm.get('fullName').invalid
+                                   && userForm.get('fullName').touched" style="color: red; margin-top: 5px;" role="alert">
+                     <ng-container *ngIf="userForm.get('fullName').hasError('required')">
+                        FullName name is required
+                     </ng-container>
+                     <ng-container *ngIf="userForm.get('fullName').hasError('minlength')">
+                        Min length must be greater than 5
+                        {{ userForm.get('name').getError('minlength').requiredLength }}
+                     </ng-container>
+                  </div>
+                </div>
+             </div>
+            <!-- validator fullname -->
+             <div class="form-group">
+              <label for="Email" class="col-sm-2 control-label">Email </label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" required formControlName="email" id="email" name="email" placeholder="Email">
+                  <div *ngIf="userForm.get('email').invalid
+                                   && userForm.get('email').touched" style="color: red; margin-top: 5px;" role="alert">
+                     <ng-container *ngIf="userForm.get('email').hasError('required')">
+                        Email name is required
+                     </ng-container>
+                     <ng-container *ngIf="userForm.get('email').hasError('email')">
+                        Email is not format (username@cmc.com.vn)
+                     </ng-container>
+                  </div>
+                </div>
+             </div>
+              <!-- validator email -->
+             <div class="form-group">
+              <label for="inputMobile3" class="col-sm-2 control-label">Mobile</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="mobile" required formControlName="mobile" name="mobile" placeholder="Mobile">
+                <div *ngIf="userForm.get('mobile').invalid
+                                   && userForm.get('mobile').touched" style="color: red; margin-top: 5px;" role="alert">
+                     <ng-container *ngIf="userForm.get('mobile').hasError('required')">
+                        Mobile name is required
+                     </ng-container>
+                     <ng-container *ngIf="userForm.get('mobile').hasError('maxLength')">
+                        Mobile must be 10 numbers
+                        {{ userForm.get('mobile').getError('maxLength').requiredLength }}
+                     </ng-container>
+                     <!-- <ng-container *ngIf="userForm.get('mobile').hasError('pattern')">
+                        Mobile must have number 09 and 01
+                    </ng-container> -->
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Password</label>
+
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="password" required formControlName="password" name="password" placeholder="Password">
+                  <div *ngIf="userForm.get('password').invalid
+                                   && userForm.get('password').touched" style="color: red; margin-top: 5px;" role="alert">
+                     <ng-container *ngIf="userForm.get('password').hasError('required')">
+                        Password name is required
+                     </ng-container>
+                     <ng-container *ngIf="userForm.get('password').hasError('minLength')">
+                        Password must be 10 numbers
+                        {{ userForm.get('password').getError('minLength').requiredLength }}
+                     </ng-container>
+                  </div>
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+               <label for="Role" class="col-sm-2 control-label" >Role</label>
+               <div class="col-sm-10">
+                 <select class="form-control" id="role" name="role" formControlName="role" style="width: 200px !important;">
+                    <option [value]="'admin'" selected >ROLE_MEMBER</option>
+                    <option [value]="'mg'">ROLE_MANAGER</option>
+                    <option [value]="'user'">ROLE_ADMIN</option>
+                 </select>
+               </div>
+           </div> -->
+
+           <div class="form-group">
+               <label for="Status" class="col-sm-2 control-label" >Status</label>
+               <div class="col-sm-10">
+                 <input type="checkbox" id="status" name="status" formControlName="status"> &nbsp;&nbsp; Hoạt động
+               </div>
+           </div>
+
+             <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                   <button type="submit"  class="btn btn-primary" >Save</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                   <button type="button" class="btn btn-primary"  [routerLink]="['/cms','user']">Back</button>
+                </div>
+             </div>
+          </form>
+       </div>
+    </div>
+ </section>

@@ -1,0 +1,135 @@
+<section class="content">
+   <h2 style="text-align: center;">Danh Sách Bài Thi</h2>
+   <div class="row">
+      <div class="col-sm-4">
+         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModals"
+            data-whatever="@mdo"><span class="glyphicon glyphicon-plus"></span> Add new</button>
+            <button class="btn btn-danger" type="button" (click)="deleteItem()" [disabled]="arrDelete.length==0" style="margin-left: 10px;"><span
+               class="glyphicon glyphicon-trash"></span> Delete</button>
+      </div>
+      <div class="col-sm-offset-4 col-sm-4">
+         <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" id="Search">
+            <span class="input-group-btn">
+               <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+         </div>
+      </div>
+   </div>
+
+   <div class="row" style="padding-top: 10px;">
+      <div class="col-sm-12">
+         <!-- table -->
+         <table class="table table-bordered table-hover table-sm">
+            <thead>
+               <tr class="info">
+                  <th>
+                     <span class="custom-checkbox">
+                        <input type="checkbox" id="checkboxAll" (change)="isCheckAll($event)">
+                        <label for="checkboxAll"></label>
+                     </span>
+                  </th>
+                  <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                     aria-sort="ascending" aria-label="Username: activate to sort column descending">
+                     TestID
+                  </th>
+                  <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                     aria-sort="ascending" aria-label="Username: activate to sort column descending">Exam Name</th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                     aria-label="Date registered: activate to sort column ascending">Semester Name</th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                     aria-label="Role: activate to sort column ascending">TestName</th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                     aria-label="Status: activate to sort column ascending">status</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of data | paginate: configPagination">
+                  <td scope="row">
+                     <span class="custom-checkbox">
+                        <input type="checkbox" id="{{item.testID}}" value="{{item.testID}}" (change)="getId($event)"
+                           [checked]="isCheck">
+                        <label for="{{item.id}}"></label>
+                     </span>
+                  </td>
+                  <td>{{item.testID}}</td>
+                  <td class="sorting_1" (click)="changeTabs()" style="cursor: pointer">{{item.exam.title}}</td>
+                  <td class="sorting_1">{{item.semesterExam.name}}</td>
+                  <td>{{item.testName}}</td>
+                  <td>
+                     <ng-container *ngIf="item.status==0">
+                        <span class="label label-default text-status">draft</span>
+                     </ng-container>
+                     <ng-container *ngIf="item.status==1">
+                        <span class="label label-info text-status">public</span>
+                     </ng-container>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+   <div class="clearfix">
+      <div class="pagination">
+         <pagination-controls (pageChange)="configPagination.currentPage = $event"></pagination-controls>
+      </div>
+   </div>
+</section>
+<!--Create bài thi đề thi-->
+
+<div class="modal fade" id="exampleModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Thêm đề vào kỳ thi</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form novalidate novalidate [formGroup]="testFrm" class="row justify-content-md-center">
+               <fieldset formGroupName="exam">
+                  <div class="form-group row">
+                     <label class="col-sm-3 control-label" for="exams">Đề thi</label>
+                     <div class="col-sm-9">
+                        <select style="width: 100%;" class="input-xs form-control" formControlName="examId" id="exams"
+                           style="font-size: 14px;">
+                           <option value="null">Vui Lòng Chọn</option>
+                           <option *ngFor="let item of exam;" value="{{item.examId}}">{{item.title}}</option>
+                        </select>
+                     </div>
+                  </div>
+               </fieldset>
+               <div class="form-group row">
+                  <label class="col-sm-3 control-label" for="test">Tên Bài Thi:</label>
+                  <div class="col-sm-9">
+                     <input class="form-control" type="text" id="test" placeholder="Tên Bài Thi"
+                        formControlName="testName" autocomplete="off">
+                     <div *ngIf="testFrm.get('testName').invalid
+                                   && testFrm.get('testName').touched" style="color: red" role="alert">
+                        <ng-container *ngIf="testFrm.get('testName').hasError('required')">
+                           TestName is required
+                        </ng-container>
+                        <ng-container *ngIf="testFrm.get('testName').hasError('minlength')">
+                           Min length
+                           {{ testFrm.get('testName').getError('minlength').requiredLength }}
+                        </ng-container>
+                     </div>
+                  </div>
+               </div>
+
+            </form>
+         </div>
+         <div class="modal-footer">
+            <div class="form-group">
+               <div style="float: right;" class="col-10 offset-2">
+                  <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="testFrm.pristine || testFrm.invalid" (click)="onSubmit()">Add</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</div>

@@ -1,0 +1,168 @@
+<section class="content-header">
+  <h1>
+    Dashboard
+    <small>Control panel</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="box">
+    <div class="box-header with-border">
+      <h3 class="box-title">Create Question Form</h3>
+
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+          <i class="fa fa-minus"></i></button>
+        <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+          <i class="fa fa-times"></i></button>
+      </div>
+    </div>
+    <div class="box-body row">
+      <div class="col-md-12 col-xs-12">
+        <form novalidate [formGroup]="editQuestionFrm" class="row justify-content-md-center form-horizontal">
+          <div class="col-md-8">
+
+            <!-- Category Question -->
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-3 control-label">Edit Question</label>
+              <div class="col-sm-9">
+                <select formControlName="questionCategory" class="form-control select2">
+                  <option *ngFor="let cate of listCategory" [selected]="questionEdit?.category.categoryId === cate.categoryId"
+                    [value]="cate.categoryId">
+                    {{cate.categoryName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Type</label>
+              <div class="col-sm-9" formGroupName="questionType">
+                <select formControlName="typeId" class="form-control select2">
+                  <option *ngFor="let type of listType" [ngValue]="type.typeId">{{type.typeName}}</option>
+                </select>
+              </div>
+            </div>
+            <br>
+
+            <!-- Level Question -->
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Level</label>
+              <div class="col-sm-9" formGroupName="questionLevel">
+                <select formControlName="levelId" class="form-control select2">
+                  <option *ngFor="let level of listLvl" [ngValue]="level.levelId">{{level.levelName}}</option>
+                </select>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Tag</label>
+              <div class="col-sm-9" formGroupName="questionTag">
+                <select formControlName="tagId" class="form-control select2">
+                  <option *ngFor="let tag of listTag" [ngValue]="tag.tagId">{{tag.tagName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <br>
+
+            <!-- Content Question -->
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Content</label>
+              <div class="col-sm-9">
+                <!-- <textarea type="text" formControlName="content" class="form-control" id="inputPassword3" placeholder=" Content..."
+                [ngClass]="{
+                    'is-valid': editQuestionFrm.get('content').valid,
+                    'is-invalid': editQuestionFrm.get('content').invalid
+                      && editQuestionFrm.get('content').touched
+                  }"></textarea> -->
+                <ckeditor [editor]="Editor" formControlName="content" id="inputPassword3" [ngClass]="{
+                    'is-valid': editQuestionFrm.get('content').valid,
+                    'is-invalid': editQuestionFrm.get('content').invalid
+                      && editQuestionFrm.get('content').touched
+                  }"></ckeditor>
+              </div>
+            </div>
+            <div *ngIf="editQuestionFrm.get('content').invalid && editQuestionFrm.get('content').touched"
+              class="alert alert-danger" role="alert" style="width: 74%;margin-left: 26%;">
+              <ng-container *ngIf="editQuestionFrm.get('content').hasError('required')">
+                Content is required
+              </ng-container>
+              <ng-container *ngIf="editQuestionFrm.get('content').hasError('minlength')">
+                Min length
+                {{ editQuestionFrm.get('content').getError('minlength').requiredLength }}
+              </ng-container>
+            </div>
+            <br>
+
+            <!--open editanswer -->
+            <!-- <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-3 control-label">Question Answer</label>
+            <div class="col-12 col-md-9">
+              <div *ngFor="let ans of this.questionEdit.questionAnswer">
+                <input class="form-control" [value]="ans.content">
+                <mat-checkbox type="checkbox" color='primary' [checked]="ans.isTrue"> isTrue </mat-checkbox>&nbsp;
+                <mat-checkbox type="checkbox" color='primary' [checked]="ans.status"> Status</mat-checkbox>
+              </div>
+            </div>
+          </div> -->
+            <!-- <br> -->
+            <!-- close edit answer -->
+
+            <!-- Sugguestion Question -->
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Sugguestion</label>
+              <div class="col-sm-9">
+                <!-- <textarea type="text" class="form-control" formControlName="sugguestion" placeholder=" Sugguestion..."
+                [ngClass]="{
+                    'is-valid': editQuestionFrm.get('sugguestion').valid,
+                    'is-invalid': editQuestionFrm.get('sugguestion').invalid
+                      && editQuestionFrm.get('sugguestion').touched
+                  }"></textarea> -->
+                <ckeditor [editor]="Editor" formControlName="sugguestion"></ckeditor>
+              </div>
+            </div>
+
+            <div *ngIf="editQuestionFrm.get('sugguestion').invalid
+                    && editQuestionFrm.get('sugguestion').touched" class="alert alert-danger" role="alert"
+              style="width: 74%;margin-left: 26%;">
+              <ng-container *ngIf="editQuestionFrm.get('sugguestion').hasError('required')">
+                Sugguestion is required
+              </ng-container>
+              <ng-container *ngIf="editQuestionFrm.get('sugguestion').hasError('minlength')">
+                Min length
+                {{ editQuestionFrm.get('sugguestion').getError('minlength').requiredLength }}
+              </ng-container>
+            </div>
+            <br>
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-3 control-label">Question Status</label>
+              <div class="col-sm-9">
+                <mat-checkbox type="checkbox" color='primary' formControlName="status"> Show/Hide</mat-checkbox>
+              </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+              <div class="col-9 offset-3">
+                <button style="margin-right:2%;" class="btn btn-success pull-right" type="submit"
+                  (click)="onSubmit()">Submit</button>
+                <button style="margin-left: 27%;" class="btn btn-primary "
+                  [routerLink]="['/cms','question']">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>

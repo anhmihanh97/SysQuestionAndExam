@@ -1,0 +1,122 @@
+<section class="content-header">
+  <h2 style="text-align: center">Group User Detail</h2>
+  <button class="btn btn-primary btn-lg" type="button" (click)="goBack()" style="margin-bottom: 10px">Back</button>
+  <!-- detail of the group -->
+  <div *ngIf="gUser">
+    <table class="table table-hover table-bordered">
+      <thead style="background-color: #20c947;">
+        <tr>
+          <th>Id</th>
+          <th>Group Name</th>
+          <th>Created By</th>
+          <th>Create Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class=" table-primary">
+          <td>{{gUser.groupId}}</td>
+          <td>{{gUser.groupName}}</td>
+          <td>{{gUser.createBy}}</td>
+          <td>{{gUser.createDate}}</td>
+          <td><button type="button" class="btn btn-primary btn-lg" (click)="editGroupUser()">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div [hidden]="submitted" class="panel panel-primary" style="margin-top: 50px;">
+    <div class="panel-heading">
+      <h3 class="panel-title" style="text-align: center">Edit Group Detail</h3>
+    </div>
+    <div class="panel-body">
+      <form (ngSubmit)="onSubmit()" #editGroupUserForm="ngForm">
+        <div class="form-group">
+          <label for="group_name">Group Name</label>
+          <input type="text" class="form-control" id="group_name" required [(ngModel)]="gUser.groupName"
+            name="group_name" #groupName="ngModel">
+          <div [hidden]="groupName.valid || groupName.pristine" class="alert alert-danger">
+            Group Name is required(must not black)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="create_by">Create By</label>
+          <input type="text" class="form-control" id="create_by" required [(ngModel)]="gUser.createBy" name="create_by" #createBy="ngModel">
+          <div [hidden]="createBy.valid || createBy.pristine" class="alert alert-danger">
+            Create By is required(must not black)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="create_date">Create Date</label>
+          <input type="date" class="form-control" id="create_date" required [(ngModel)]="gUser.createDate"
+            name="create_date" #createDate="ngModel">
+            <div [hidden]="createDate.valid || createDate.pristine" class="alert alert-danger">
+              Create Date is required(must not black)
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg" [disabled]="!editGroupUserForm.form.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- List all user in one group -->
+  <br><br>
+  <h2 style="text-align: center">List Users in Group in {{gUser.groupName}}</h2>
+  <br>
+  <div>
+    <button type="button" class="btn btn-primary btn-lg pull-right" (click)="onClick();"
+      style="margin-right: 20px;margin-bottom: 10px;">Add User</button>
+  </div>
+  <div *ngIf="users1">
+    <table class="table table-hover table-bordered">
+      <thead style="background-color: #20c947;">
+        <tr>
+          <th>Id</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Status</th>
+          <th style="width: 15% !important">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table-primary" *ngFor="let item of users1">
+          <td>{{item.userId}}</td>
+          <td>{{item.fullName}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.mobile}}</td>
+          <td>{{item.status}}</td>
+          <td style="width: 15% !important"><button type="button" class="btn btn-primary btn-lg"
+              (click)="deleteUser(item.userId,gUser.groupId)">Delete</button></td>
+          <!-- [routerLink]="['/group','detail',gUser.groupId]" -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+
+  <!-- List all user in database -->
+  <div *ngIf="users2" [hidden]="added">
+    <table class="table table-hover table-bordered" style="width: 650px;margin-left: 300px;">
+      <thead style="background-color: #20c947;">
+        <tr>
+          <th style="width: 8% !important">Id</th>
+          <th>Full Name</th>
+          <th style="width: 20%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table-primary" *ngFor="let item of users2;">
+          <td>{{item.userId}}</td>
+          <td>{{item.fullName}}</td>
+          <td><button [hidden]="disable" type="button" class="btn btn-primary btn-lg"
+              (click)="addUser(gUser.groupId,item.userId)">Add User</button></td>
+          <!-- [routerLink]="['/group','detail',gUser.groupId]" -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

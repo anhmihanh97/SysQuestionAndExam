@@ -1,0 +1,136 @@
+
+<section class="content">
+   <div class="box">
+      <div class="box-body">
+         <div class="table-wrapper">
+            <div class="table-title" style="height: 50px !important; padding: 10px; text-align: center;">
+               <h4>List Course Catalog</h4>
+            </div>
+
+            <div class="container-fluid" style="padding-top: 20px;">
+
+               <div class="row">
+                  <a [routerLink]="['/cms','coursecatalog','add']" class="btn btn-success btn-sm"><span
+                     class="glyphicon glyphicon-plus"></span> Add Course Catalog</a>
+               <div class="col-md-4 pull-right">
+                  <input type="text" class="input-sm" [(ngModel)]="keyword"  name="keyword" placeholder="search"> &nbsp; &nbsp;
+                  <button class="btn btn-default" type="button" (click)="searchCourseCatalog()">
+                     <i class="glyphicon glyphicon-search"></i>   &nbsp;&nbsp;&nbsp; Tìm kiếm
+                  </button>
+               </div>
+
+            </div>
+
+               <div class="row" style="margin-top: 10px;">
+                  <table class="table table-striped table-bordered table-sm" mat-table [dataSource]="dataSource" matSort
+                    matSortDisableClear cellspacing="0" width="100%">
+                     <!-- STT Column -->
+                     <ng-container matColumnDef="stt">
+                        <th mat-header-cell *matHeaderCellDef  class="stt"> STT </th>
+                        <td mat-cell *matCellDef="let CourseCatalog;let i = index;"> {{dataSource.filteredData.indexOf(CourseCatalog)+1}}
+                        </td>
+                     </ng-container>
+                     <!-- gioi han chu khi view -->
+                     <!-- Column Name -->
+                     <ng-container matColumnDef="categoryCourseName">
+                        <th mat-header-cell *matHeaderCellDef > CourseCatalog Name </th>
+                        <td mat-cell *matCellDef="let CourseCatalog">
+                          {{CourseCatalog.categoryCourseName}}
+                        </td>
+                     </ng-container>
+
+                     <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef > Description </th>
+                        <td mat-cell *matCellDef="let CourseCatalog">{{CourseCatalog.description}}</td>
+                     </ng-container>
+
+
+
+                     <!-- Actions -->
+
+                     <ng-container matColumnDef="action">
+                           <th mat-header-cell *matHeaderCellDef class="action" style="width: 20%;">Action</th>
+                           <td mat-cell *matCellDef="let CourseCatalog">
+
+
+
+                              <button class="btn btn-warning btn-sm"style="margin-right: 5px;" [routerLink]="[ CourseCatalog.categoryCourseId, 'edit']"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit</button>
+                              <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm" (click)="deleteCourseCatalog(CourseCatalog.categoryCourseId)"><span
+                                 class="glyphicon glyphicon-trash"></span> Delete</button>
+
+
+                           </td>
+                        </ng-container>
+
+
+                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                     <tr mat-row *matRowDef="let CourseCatalog; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+               </div>
+            </div>
+
+         </div>
+      </div>
+      <!-- Edit Modal HTML -->
+   </div>
+
+ </section>
+
+
+
+ <!-- <section class="content-header">
+
+    <div class="table-title" style="height: 30px !important; padding: 5px; text-align: center;">
+
+              <h4>Course Catalog List</h4>
+
+           </div>
+
+  <div style="margin-bottom: 4em">
+
+    <a class="btn btn-success pull-right" [routerLink]="['add']">+ Add Course Catalog</a>
+
+    <div class="pull-left">
+       <input type="text" placeholder="Search" [(ngModel)]="categoryCourseName" style="margin-right: 1em">
+
+      <button type="button" (click)="searchCourseCatalog()" class="btn btn-primary" routerLink= "../search" >Search</button>
+
+
+    </div>
+
+
+    <table  class="table table-hover">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Category Course Name</th>
+          <th>Description</th>
+          <th>Delete</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class=" table-table-primary" *ngFor="let item of courseCatalogs | async">
+
+          <td>{{item.categoryCourseId}}</td>
+          <td>{{item.categoryCourseName}}</td>
+          <td>{{item.description}}</td>
+
+          <td><span style = "color:blue" class="glyphicon glyphicon-trash" (click)="deleteCourseCatalog(item.categoryCourseId)" ></span></td>
+
+          <td > <span  style = "color:blueviolet" class="glyphicon glyphicon-edit" [routerLink]="['details',item.categoryCourseId]"></span></td>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+</section> -->
+
+
+
+

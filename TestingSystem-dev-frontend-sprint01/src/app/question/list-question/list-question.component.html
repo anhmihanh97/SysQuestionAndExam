@@ -1,0 +1,290 @@
+<section class="content-header">
+  <h1>
+    Dashboard
+    <small>Control panel</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="cms"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+  </ol>
+</section>
+<notifier-container></notifier-container>
+<section class="content">
+  <div class="box">
+    <div class="box-body">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-6">
+              <h2>Manage <b>Question</b></h2>
+            </div>
+            <div class="col-sm-6">
+
+              <a href="#formtag" class="btn btn-primary" data-toggle="modal"><i
+                  class="glyphicon glyphicon-plus-sign"></i>
+                <span>Add Tag</span></a>
+              <a class="btn btn-success" [routerLink]="['create']"><i class="glyphicon glyphicon-plus-sign"></i>
+                <span>Add New Question</span></a>
+              <a href="#updateMultiQuestion" (click)="loadPopupUpdate()" class="btn btn-warning" data-toggle="modal"><i
+                  class="glyphicon glyphicon-list-alt"></i>
+                <span>Update Many Question</span></a>
+            </div>
+          </div>
+        </div>
+        <!--------------- search---------------->
+        <div class="table-title-2">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-8">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Enter Question content ..." [(ngModel)]="searchStr"
+                  (keypress)="keyPressSearch($event)">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info btn-flat" (click)="searchByContent()">Search</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!--------------- filter ---------------->
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                  data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form [formGroup]="questionFrm">
+                  <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" formControlName="categoryName" >
+                          <option value="">--Category--</option>
+                          <option *ngFor="let categorySelected of listCategory" [value]="categorySelected.categoryName">
+                            {{categorySelected.categoryName }}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <select class="form-control" formControlName="roleName">
+                          <option value="">Create_By</option>
+                          <option *ngFor="let role of roles" [value]="role.roleName">{{role.roleName}}</option>
+
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" formControlName="levelName">
+                          <option value="">--Level--</option>
+                          <option *ngFor="let lvl of listLvl" [value]="lvl.levelName">{{lvl.levelName}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-9 col-xs-12">
+                            <input class="form-control" type="date" value="createAt" formControlName="dateCreated">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control" formControlName="typeName" >
+                          <option value="">--Type--</option>
+                          <option *ngFor="let lvl of listType" [value]="lvl.typeName">{{lvl.typeName}}</option>
+                        </select>
+                      </div>
+                      <!-- filter tag -->
+                      <div class="form-group">
+                        <select class="form-control" formControlName="tagName" name="tagF">
+                          <option value="">--Tag--</option>
+                          <option *ngFor="let lvl of listTag" [value]="lvl.tagName">{{lvl.tagName}}</option>
+                        </select>
+                      </div>
+                      <input style="width:100px" type="submit" value="Submit" class="btn btn-primary "
+                        (click)="onSubmit()">
+                    </div>
+                  </div>
+
+                  <!-- /.box-body -->
+                  <div class="row">
+                    <div class="box-footer col-md-12">
+
+                    </div>
+                  </div>
+                </form>
+              </div><!-- /.navbar-collapse -->
+            </nav>
+          </div>
+        </div>
+        <!-- table -->
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped table-hover">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                color="primary" [checked]="selection.isSelected(row)" [value]="row.id">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Category Column -->
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 100px; font-size: 18px; font-weight: bold;">
+              Category </th>
+            <td mat-cell *matCellDef="let element"> {{element.category.categoryName}} </td>
+          </ng-container>
+
+          <!-- Creat_by Column -->
+          <ng-container matColumnDef="create_by">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 130px; font-size: 18px; font-weight: bold;">
+              Create By </th>
+            <td mat-cell *matCellDef="let element"> {{element.userQuestion.fullName | titlecase}} </td>
+          </ng-container>
+
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 230px; font-size: 18px; font-weight: bold;">
+              Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateCreated | date:'d/M/yyyy'}} </td>
+          </ng-container>
+
+          <!-- Level Column -->
+          <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 121.8px; font-size: 18px; font-weight: bold;">
+              Level </th>
+            <td mat-cell *matCellDef="let element"> {{element.questionLevel.levelName | titlecase}} </td>
+          </ng-container>
+          <!-- Content Column -->
+          <ng-container matColumnDef="content">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 240.2px; font-size: 18px; font-weight: bold;">
+              Content </th>
+            <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+          </ng-container>
+          <!-- Tag Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              style="width: 121.8px; font-size: 18px; font-weight: bold;">
+              Status </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="btn-group" *ngIf="element.status === 1 || element.status === 0">
+                <button type="button" class="btn btn-block" [ngClass]="{
+                        'btn-success' : element.status === 1,
+                        'btn-warning' : element.status === 0
+                      }" (click)="updateStatus(element.questionId, element.status)">
+                  {{element.status===1?'Show':'Hidden'}}
+                </button>
+              </div>
+              <div class="btn-group" *ngIf="element.status === 2">
+                <button type="button" class="btn btn-danger btn-block">
+                  Is used
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+              rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending"
+              style="width: 300px; font-size: 18px; font-weight: bold;">
+              Action </th>
+            <td mat-cell *matCellDef="let element">
+              <a class="View" style="margin-right: 5px;" [routerLink]="[ element.questionId]">
+                <i class="material-icons" data-toggle="tooltip" title="View">&#xe8f4;</i></a>
+              <a class="edit" style="margin-right: 5px;" [routerLink]="[ element.questionId,'edit']">
+                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="clearfix">
+          <div class=hint-text>Showing
+            <select name="choisepage" (change)="choisePage($event.target)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+            entries
+          </div>
+          <ul class="pagination">
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage===0}">
+              <a (click)="setPage(0)"><i class="glyphicon glyphicon-step-backward"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage===0}">
+              <a (click)="previousPage()"><i class="glyphicon glyphicon-menu-left"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage=== maxPage - 1}">
+              <a (click)="nextPage()"><i class="glyphicon glyphicon-menu-right"></i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:tabAllQuestion.currentPage=== maxPage -1}">
+              <a (click)="setPage(maxPage - 1)"><i class="glyphicon glyphicon-step-forward"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- popup update multi question -->
+    <div id="updateMultiQuestion" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content box-body">
+          <form>
+            <div class="modal-header">
+              <h4 class="modal-title">Update selected questions</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Level</label>
+                <select class="form-control" [(ngModel)]="levelSelected" name="levelSelected">
+                  <option *ngFor="let lvl of listLvl" [value]="lvl.levelId">{{lvl.levelName | titlecase}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" [(ngModel)]="categorySelected" name="categorySelected">
+                  <option disabled="true" selected>--Select--</option>
+                  <option *ngFor="let cate of listCategory" [value]="cate.categoryId">{{cate.categoryName | titlecase}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Tag</label>
+                <select class="form-control" [(ngModel)]="tagSelected" name="tagSelected">
+                  <option disabled="true" selected>--Select--</option>
+                  <option *ngFor="let tag of listTag" [value]="tag.tagId">{{tag.tagName}}</option>
+                </select>
+              </div>
+              <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+              <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+              <input type="button" (click)="updateMuiltiQestion()" class="btn btn-warning" value="Update">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <app-popup-list-question (event)="submitPopUp($event)"></app-popup-list-question>
+  </div>
+</section>

@@ -1,0 +1,118 @@
+
+
+<section class="content">
+   <div class="box">
+      <div class="box-body">
+         <div class="table-wrapper">
+            <div class="table-title" style="height: 50px !important; padding: 10px; text-align: center;">
+               <h4>Manager User</h4>
+            </div>
+
+            <div class="container-fluid" style="padding-top: 20px;">
+                  <!-- <div class="row">
+                        <div class="col-md-12">
+                           <form class="form-horizontal" [formGroup]="userFrom">
+                              <div class="form-group">
+                                 <div class="col-sm-3">
+                                    <input type="text" class="input-sm form-control" name="fullname" placeholder="FullName"> -->
+                                    <!-- <select class=" select2" style="width: 25%;height: 30px" formControlName="categoryName">
+                                          <option value="">FullName</option>
+                                          <option *ngFor="let fullName of fullname " value="{{fullname}}" >{{fullname}}</option>
+
+                                    </select>
+                                 </div>
+                                 <div class="col-md-3">
+                                    <input type="text" class="input-sm form-control" formControlName="email" name="email" placeholder="Email">
+                                 </div>
+                                 <div class="col-md-3">
+                                    <select type="text" class="input-sm form-control" formControlName="status" name="status">
+                                       <option [ngValue]="" [selected]="true">Status</option>
+                                       <option [ngValue]="1">Hoạt động</option>
+                                       <option [ngValue]="0">Không hoạt động</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-3">
+                                       <button type="button" class="btn btn-primary"  style="width: 150px;height: 30px;">
+                                          <span class="glyphicon glyphicon-filter"></span> Filter
+                                       </button>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div> -->
+
+               <div class="row">
+                  <!-- <div class="col-md-6"> -->
+                     <a [routerLink]="['/cms','user','create']" class="btn btn-success btn-sm"><span
+                           class="glyphicon glyphicon-plus"></span> Add
+                        User</a>
+                        <span *ngIf="authority === 'admin'" style="margin-left: 30px"> <a [routerLink]="['/cms','user','user-role']" class="btn btn-success btn-sm"><span
+                          class="glyphicon glyphicon-plus" ></span> Maxtrix UserRole
+                       </a></span>
+                     <div class="col-md-4 pull-right">
+                        <input type="text" class="input-sm" [(ngModel)]="keyword"  name="keyword" placeholder="search"> &nbsp; &nbsp;
+                        <button class="btn btn-default" type="button" (click)="searchUser()">
+                           <i class="glyphicon glyphicon-search"></i>   &nbsp;&nbsp;&nbsp; Tìm kiếm
+                        </button>
+                     </div>
+
+               </div>
+               <div class="row" style="margin-top: 10px;">
+               <table  class="table table-striped table-bordered table-sm" mat-table [dataSource]="dataSource" matSort
+                     matSortActive="fullname" matSortDirection="asc" matSortDisableClear cellspacing="0" width="100%">
+                  <!-- STT Column -->
+                  <ng-container matColumnDef="stt">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="stt"> STT </th>
+                     <td mat-cell *matCellDef="let user;let i = index;"> {{dataSource.filteredData.indexOf(user)+1}}</td>
+                  </ng-container>
+                  <!-- gioi han chu khi view -->
+                  <!-- FullName Column -->
+                  <ng-container matColumnDef="fullname">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header> FullName </th>
+                     <td mat-cell *matCellDef="let user">{{user.fullName}}</td>
+                  </ng-container>
+
+                  <!-- Email Column -->
+                  <ng-container matColumnDef="email">
+                     <th mat-header-cell *matHeaderCellDef> Email </th>
+                     <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+                  </ng-container>
+
+                  <!-- Mobile User Column -->
+                  <ng-container matColumnDef="mobile">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header > Mobile</th>
+                     <td mat-cell *matCellDef="let user"> {{user.mobile}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header > Status</th>
+                        <td mat-cell *matCellDef="let user">
+                           <ng-container *ngIf="user.status==1"><span class="label label-success text-status">Activated</span></ng-container>
+                           <ng-container *ngIf="user.status==0"><span class="label label-danger text-status">Deativated</span></ng-container>
+                        </td>
+                     </ng-container>
+
+                  <!-- Actions -->
+                  <ng-container matColumnDef="actions">
+                     <th mat-header-cell *matHeaderCellDef class="actions" style="width: 20%;">Action</th>
+                     <td mat-cell *matCellDef="let user">
+
+                        <button class="btn btn-warning btn-sm"style="margin-right: 5px;" [routerLink]="[ user.userId, 'edit']"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit</button>
+                        <span *ngIf="authority === 'admin'"> <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm" (click)="sendId(user.userId)"><span
+                           class="glyphicon glyphicon-trash"></span> Delete</button></span>
+                        <app-popup-delete (eventName)="deleteUser($event)"></app-popup-delete>
+                     </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let user; columns: displayedColumns;"></tr>
+               </table>
+               <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+               </div>
+            </div>
+
+         </div>
+      </div>
+
+   </div>
+</section>

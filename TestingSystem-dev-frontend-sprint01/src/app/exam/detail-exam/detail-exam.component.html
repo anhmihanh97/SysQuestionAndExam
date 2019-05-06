@@ -1,0 +1,115 @@
+<section class="content-header">
+  <h1>Exam Detail</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="cms" routerLink="/"><i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active"><a href="cms/exam">Exam</a></li>
+    <li class="active">Exam detail</li>
+  </ol>
+</section>
+<notifier-container></notifier-container>
+<!-- Main content -->
+<section class="content">
+  <button class="btn btn-warning btnUpdate" style="width: 100px;margin-bottom: 10px" [routerLink]="[ 'update']">
+    Update
+  </button>
+
+  <button class="btn btn-primary btnUpdate" (click)="export()" style="width: 100px;margin-bottom: 10px">
+    Export
+  </button>
+  <ng-template [ngIf]="exam?.status !== 'Draft'">
+    <button class="btn btn-success disabled" style="width: 100px;margin-bottom: 10px">
+      Approve
+    </button>
+  </ng-template>
+  <ng-template [ngIf]="exam?.status === 'Draft'">
+    <button class="btn btn-success" style="width: 100px;margin-bottom: 10px" data-toggle="modal"
+      data-target="#modal-approve">
+      Approve
+    </button>
+  </ng-template>
+  <div class="modal modal-warning fade in" id="modal-approve" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title">Confirm Approve</h4>
+        </div>
+        <div class="modal-body">
+          <p>Do you sure approve this exam to Public?</p>
+        </div>
+        <div class="modal-footer text-black">
+          <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-outline" data-dismiss="modal" (click)="approve()">
+            Confirm
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <div class="alert alert-danger alert-dismissible" *ngIf="flag == false; ">
+    <i class="icon fa fa-ban"></i> This exam has not question!
+  </div>
+
+
+  <div class="box box-warning" *ngIf="exam">
+    <div class="box-header with-border">
+      <b>
+        <h3 class="text-center">{{ exam.title.toUpperCase() }}</h3>
+        <div class="pull-left" style="margin-left: 5%">
+          Exam ID: {{exam.examId}}
+          <p>Category: {{exam.category.categoryName}} </p>
+          <p>Duration: {{exam.duration}} minute(s)</p>
+          <p>Note: {{exam.note}}</p>
+        </div>
+        <div class="pull-right" style="padding-right: 5%">
+          <p>Number of question: {{ exam.numberOfQuestion }}</p>
+          <p>Created at: {{ exam.createAt | date:'dd/MM/yyyy'}}</p>
+          <p>
+            Created by: {{ exam.userCreated.fullName }}
+          </p>
+        </div>
+      </b>
+    </div>
+
+    <ng-container *ngIf="exam?.examQuestions.length > 0">
+      <hr />
+      <div style="margin-left: 5%">
+        <div *ngFor="let q of exam.examQuestions; index as i">
+          <label>Question {{ i + 1 }}:</label> {{ q.question.content }}
+          <ng-template ngFor let-j [ngForOf]="q.choiceOrder.split(' ')">
+            <div *ngIf="q.question.answers[j - 1].true === false; else template">
+              <div class="checkbox">
+                <label><input type="checkbox" value="" disabled />{{
+                q.question.answers[j - 1].content
+                }}</label>
+              </div>
+            </div>
+            <ng-template #template>
+              <div class="checkbox">
+                <label style="color: red"><input type="checkbox" value="" disabled checked />{{
+                q.question.answers[j - 1].content
+                }}</label>
+              </div>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="exam?.examQuestions.length === 0">
+      <br />
+      <div class="text-center">
+        <h3 class="text-red">No question in this exam</h3>
+      </div>
+    </ng-container>
+    <br>
+  </div>
+</section>

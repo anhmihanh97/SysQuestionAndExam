@@ -1,0 +1,35 @@
+
+/* -------------------------------- content */
+.exam-content {
+   padding: 20px 10%;
+}
+
+.go-back-btn-wrapper {
+   padding-bottom: 10px;
+}
+
+.go-back-btn-wrapper>a {
+   float: right;
+}
+
+.go-back-btn-wrapper::after {
+   display: table;
+   content: '';
+   clear: both;
+}
+
+.panel-heading {
+   background-color: #435d7d;
+}
+
+.panel-title{
+   font-size: 35px;
+}
+
+.question-wrapper {
+   padding: 10px 5%;
+}
+
+.question-wrapper .form-check label {
+   font-weight: normal;
+}

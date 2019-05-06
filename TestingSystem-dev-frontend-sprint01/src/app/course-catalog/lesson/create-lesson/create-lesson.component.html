@@ -1,0 +1,126 @@
+<section class="content-header">
+  <h1>
+   Lesson
+    <small>show all the fields of lesson</small>
+  </h1>
+  <ol class="breadcrumb">
+      <li><a [routerLink]="['/cms']"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a [routerLink]="['/cms','course']"> Course</a></li>
+    <li class="active"> <a [routerLink]="['chapter']">Chapter</a></li>
+    <li class="active"> Lesson</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="box">
+     <div class="box-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+               <h3 class="panel-title">Add Lesson</h3>
+            </div>
+            <div class="panel-body">
+               <form class="form-horizontal" (ngSubmit)="onSubmit()" [formGroup]="lessonForm">
+
+                  <div class="form-group">
+                     <label for="LessonName" class="col-sm-2 control-label">Lesson Name </label>
+                     <div class="col-sm-8">
+                       <input type="text" class="form-control" required formControlName="lessonName"  id="lessonName" name="lessonName" placeholder="Lesson Name">
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                   <label for="Content" class="col-sm-2 control-label">Content</label>
+                   <div class="col-sm-8">
+                     <input type="text" class="form-control" id="content" required formControlName="content" name="content" placeholder="Content">
+                   </div>
+                 </div>
+
+                 <div class="form-group">
+                  <label for="Condition" class="col-sm-2 control-label">Condition</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="condition" required formControlName="condition" name="condition" placeholder="condition">
+                  </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Tags" class="col-sm-2 control-label">Tags</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="tags" required formControlName="tags" name="tags" placeholder="tags">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-8">
+                      <ckeditor [editor]="Editor" formControlName="description"></ckeditor>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Video" class="col-sm-2 control-label">Video</label>
+                    <div class="col-sm-8">
+                      <input type="file" class="form-control" (change)="onSelectVideo($event)" id="video" required name="video" placeholder="link video">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Audio" class="col-sm-2 control-label">Audio</label>
+                    <div class="col-sm-8">
+                      <input type="file" class="form-control" (change)="onSelectAudio($event)" id="audio" required name="audio" placeholder="link Audio">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Document" class="col-sm-2 control-label">Document</label>
+                    <div class="col-sm-8">
+                      <input type="file" class="form-control" (change)="onSelectDocument($event)" id="document" required name="document" placeholder="document">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Test" class="col-sm-2 control-label">Test</label>
+                    <div class="col-sm-8">
+                      <select
+                      class="form-control select2 select2-hidden-accessible"
+                      style="width: 100%;"
+                      tabindex="-1"
+                      aria-hidden="true"
+                      formControlName="testId" >
+                      <option selected="selected" >Chọn bài test</option>
+                      <option *ngFor="let test of tests"  [ngValue]= "test.testID">{{test.testName}}</option>
+                    </select>
+                    </div>
+                  </div>
+
+
+                 <!-- <div class="form-group">
+                    <label for="Role" class="col-sm-2 control-label" >Role</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" id="role" name="role" formControlName="role" style="width: 200px !important;">
+                         <option [value]="'admin'" selected >ROLE_MEMBER</option>
+                         <option [value]="'mg'">ROLE_MANAGER</option>
+                         <option [value]="'user'">ROLE_ADMIN</option>
+                      </select>
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="Status" class="col-sm-2 control-label" >Status</label>
+                    <div class="col-sm-10">
+                      <input type="radio" id="status" name="status" formControlName="status"  value="1"> &nbsp;&nbsp; Công khai
+                      &nbsp;&nbsp;
+                      <input type="radio" id="status" name="status" formControlName="status"  value="0"> &nbsp;&nbsp; Riêng tư
+                    </div>
+                </div>
+
+                  <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit"  class="btn btn-primary" >Save</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary"  [routerLink]="['/cms','user']">Back</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+  </div>
+</section>

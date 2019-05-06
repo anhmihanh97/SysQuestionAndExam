@@ -1,0 +1,65 @@
+<div class="container">
+
+  <h2 style="text-align: center">Create Menu</h2>
+
+  <form   (ngSubmit)="onSubmit()" #addMenuForm="ngForm">
+
+    <div class="form-group">
+
+      <label for="menu_name">Menu Name:</label>
+
+      <input type="text" class="form-control" id="menu_name"  placeholder="Enter menu name" required [(ngModel)]="menu.menuName" name="menu_name" #menuName="ngModel" minlength="5">
+
+      <div [hidden] class="alert alert-info"  role="alert"
+
+        *ngIf="menuName?.errors?.required && menuName?.touched">
+
+      Menu Name is required
+
+      </div>
+      <div [hidden] class="alert alert-info"  role="alert"
+
+        *ngIf="menuName?.errors?.minlength">
+
+      Menu Name must be at least 5 characters long.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="menu_description">Menu Description:</label>
+
+      <input type="text" class="form-control" id="menu_description" placeholder="Enter menu description" required [(ngModel)]="menu.menuDescription"  name="menu_description"
+
+      #menuDescription="ngModel">
+
+      <div [hidden] class="alert alert-info"  role="alert"
+
+        *ngIf="menuDescription?.errors?.required && menuDescription.touched">
+
+        Menu Description is required
+
+      </div>
+    </div>
+    <!-- <div class="form-group">
+
+      <label for="menu_function">Menu Function:</label>
+
+      <input type="text" class="form-control" id="menu_function" placeholder="Enter menu function" required [(ngModel)]="menu.menuFunction" name="menu_function" #menuFunction="ngModel">
+
+      <div [hidden] class="alert alert-info"  role="alert"
+
+        *ngIf="menuFunction?.errors?.required && menuFunction.touched" >
+
+      Menu Function is required
+      </div>
+
+    </div> -->
+
+    <button type="submit" class="btn btn-success" [disabled]="addMenuForm.invalid" >Submit</button>
+
+  </form>
+</div>

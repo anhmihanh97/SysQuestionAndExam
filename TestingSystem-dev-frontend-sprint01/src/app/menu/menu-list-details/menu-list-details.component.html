@@ -1,0 +1,66 @@
+<section class="content-header">
+  <h2 style="text-align: center">Menu Detail</h2>
+  <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
+  <div *ngIf="gmenu">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Menu Name</th>
+          <th>Menu Description</th>
+          <th>Menu Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class=" table-primary">
+          <td>{{gmenu.id}}</td>
+          <td>{{gmenu.menuName}}</td>
+          <td>{{gmenu.menuDescription}}</td>
+          <td>{{gmenu.menuFunction}}</td>
+          <td><button type="button" class="btn btn-primary" (click)="editMenu()">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <h3 style="text-align: center">Edit Menu</h3>
+  <div [hidden]="submitted" style="width: 300px;">
+    <form (ngSubmit)="obSubmit()">
+          <div class="form-group">
+        <label for="menu_name">Menu Name</label>
+        <input type="text" class="form-control" id="menu_name" required [(ngModel)]="gmenu.menuName" name="menu_name">
+      </div>
+
+      <div class="form-group">
+        <label for="menu_description">Menu Description</label>
+        <input type="text" class="form-control" id="menu_description" required [(ngModel)]="gmenu.menuDescription" name="menu_description">
+      </div>
+
+      <div class="form-group">
+        <label for="menu_function">Menu Function</label>
+        <input type="text" class="form-control" id="menu_function" required [(ngModel)]="gmenu.menuFunction" name="menu_function">
+      </div>
+
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div> -->
+
+  <div  [hidden]="submitted" style="width: 300px;">
+    <h2 style="text-align: center">Edit Menu</h2>
+    <form (ngSubmit)="obSubmit()">
+      <div class="form-group">
+        <label for="menu_name">Menu Name:</label>
+        <input type="text" class="form-control" id="menu_name" placeholder="Enter menu name" required [(ngModel)]="gmenu.menuName" name="menu_name">
+      </div>
+      <div class="form-group">
+        <label for="menu_description">Menu Description:</label>
+        <input type="text" class="form-control" id="menu_description" placeholder="Enter menu description" required [(ngModel)]="gmenu.menuDescription" name="menu_description">
+      </div>
+      <div class="form-group">
+        <label for="menu_function">Menu Function:</label>
+        <input type="text" class="form-control" id="menu_function" placeholder="Enter menu function" required [(ngModel)]="gmenu.menuFunction" name="menu_function">
+      </div>
+     
+      <button type="submit" class="btn btn-success" >Submit</button>
+    </form>
+  </div>
+</section>
